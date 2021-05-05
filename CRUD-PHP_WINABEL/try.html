@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<style>
+    body {
+    font-family: "Open Sans", sans-serif;
+    line-height: 1.6;
+}
+
+.add-todo-input {
+    outline: none;
+}
+
+.add-todo-input:focus{
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.view-opt-label,
+.date-label {
+    font-size: 0.8rem;
+}
+
+
+
+
+</style>
+<body>
+    <div class="container m-5 w-50 rounded mx-auto bg-light shadow">
+        <!-- App title section -->
+        <div class="row m-1 p-2">
+            <div class="col">
+                <div class="p-1 h1 text-primary text-center mx-auto display-inline-block">
+                    <i class="fa fa-check bg-primary text-white rounded p-2"></i>
+                    <u>My Todo-s</u>
+                </div>
+            </div>
+        </div>
+        <!-- Create todo section -->
+        <div class="row m-1 p-3">
+            <div class="col col-11 mx-auto">
+                <div class="row bg-white rounded shadow-sm p-2 add-todo-wrapper align-items-center justify-content-center">
+                    <div class="col">
+                        <input class="form-control form-control-lg border-0 add-todo-input bg-transparent rounded" type="text" placeholder="Add new ..">
+                    </div>
+
+                    <div class="col-auto px-0 mx-0 mr-2">
+                        <button type="button" class="btn btn-primary">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<!-- rETREIVE -->
+<?php 
+$connection = $todo->openConnection();
+$query = $connection->prepare("SELECT * FROM `list`");
+$query->execute();
+$getData = $query->fetchAll();
+$count = 0;
+while ($count < count($getData)) {?>
+<tr>
+  <td><input type="checkbox"></td>
+  <td><?php echo  $getData[$count]['list-to-do']?></td>
+  <td><a type = "submit" data-toggle="modal" data-target="#updateModal" name = "edit" href = "index.php?id_edit=<?php echo $getData[$count]['id'] ?>"><i class='fa fa-edit' style='font-size:16px;color:blue'></i></a></td>
+  <td><i  class='fa fa-trash-o' name="del" data-toggle="modal" data-target="#deleteModal" style='font-size:16px;color:red'></i></a></td>
+</tr>
+             
+<?php   
+$count++; }         
+?>
